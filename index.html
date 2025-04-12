@@ -2,55 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Corporate Mobile Banking</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Corporate Banking App</title>
   <link rel="manifest" href="manifest.json" />
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
     }
-  </script>
+
+    #notifyBtn {
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #0055aa;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    #notifyBtn:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
-  <div class="app-container">
-    <header>
-      <h2>Welcome, Corp Ltd.</h2>
-      <p>Balance: <strong>$2,150,000</strong></p>
-    </header>
 
-    <section class="tabs">
-      <button onclick="showTab('dashboard')">🏦 Dashboard</button>
-      <button onclick="showTab('payments')">💸 Payments</button>
-      <button onclick="showTab('approvals')">✅ Approvals</button>
-      <button onclick="showTab('settings')">⚙️ Settings</button>
-    </section>
+  <h1>Corporate Banking App</h1>
+  <button id="notifyBtn">Trigger Notification in 30s</button>
 
-    <section id="dashboard" class="tab active">
-      <h3>Recent Transactions</h3>
-      <ul>
-        <li>Salary Transfer - $500,000</li>
-        <li>Vendor Payment - $120,000</li>
-        <li>Received from Client X - $700,000</li>
-      </ul>
-    </section>
+  <script>
+    // Request notification permission on load
+    if ('Notification' in window && Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
 
-    <section id="payments" class="tab">
-      <h3>Initiate Payment</h3>
-      <p>Coming soon...</p>
-    </section>
+    const notifyBtn = document.getElementById('notifyBtn');
 
-    <section id="approvals" class="tab">
-      <h3>Pending Approvals</h3>
-      <p>No approvals pending.</p>
-    </section>
+    notifyBtn.addEventListener('click', () => {
+      // Hide the button
+      notifyBtn.style.display = 'none';
 
-    <section id="settings" class="tab">
-      <h3>Settings</h3>
-      <p>Profile, Notifications, Security</p>
-    </section>
-  </div>
-
-  <script src="script.js"></script>
+      // Set timer for 30 seconds
+      setTimeout(() => {
+        if (Notification.permission === 'granted') {
+          new Notification("🔔 Reminder", {
+            body: "This is your 30-second alert from your Corporate Banking App!",
+            icon: 'icon-192.png'
+          });
+        }
+      }, 30000); // 30 seconds
+    });
+  </script>
 </body>
 </html>

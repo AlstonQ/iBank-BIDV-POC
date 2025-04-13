@@ -57,5 +57,30 @@
       }, 30000); // 30 seconds
     });
   </script>
+
+  <script>
+  // Register Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js').then(() => {
+      console.log('SW registered');
+    });
+  }
+
+  const notifyBtn = document.getElementById('notifyBtn');
+
+  notifyBtn.addEventListener('click', () => {
+    notifyBtn.style.display = 'none';
+
+    setTimeout(() => {
+      navigator.serviceWorker.ready.then(function (reg) {
+        reg.showNotification("🔔 Reminder", {
+          body: "This is your 30-second alert from your Corporate Banking App!",
+          icon: 'icon-192.png'
+        });
+      });
+    }, 30000);
+  });
+</script>
+
 </body>
 </html>
